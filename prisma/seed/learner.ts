@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Random } from 'mockjs';
+import { hash } from 'argon2';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ export const createLearner = async (n: number) => {
         data: {
             id: 'tom',
             username: 'Tom',
-            password: '123',
+            password: await hash('123'),
             intro: Random.ctitle(0, 30),
             avatar: Random.image('140x140', randomAvatarColor(), 'T'),
         },
@@ -17,7 +18,7 @@ export const createLearner = async (n: number) => {
         data: {
             id: 'jerry',
             username: 'Jerry',
-            password: '123',
+            password: await hash('123'),
             intro: Random.ctitle(0, 30),
             avatar: Random.image('140x140', randomAvatarColor(), 'J'),
         },
@@ -28,7 +29,7 @@ export const createLearner = async (n: number) => {
             data: {
                 id: Random.string('lower', 1, 20),
                 username,
-                password: Random.string(1, 20),
+                password: await hash(Random.string(1, 20)),
                 intro: Random.ctitle(0, 30),
                 avatar: Random.image('140x140', randomAvatarColor(), username.substring(0, 1)),
             },
