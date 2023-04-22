@@ -1,12 +1,13 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { RegisterDTO } from './dto/register.dto';
 import { LoginDTO } from './dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService) {}
 
     async register(dto: RegisterDTO) {
         return await this.prisma.learner.create({
@@ -24,7 +25,8 @@ export class AuthService {
                 id: dto.id,
             },
         });
-        if (user.password === dto.password) return '登录成功';
+
+        if (await verify(user.password, dto.password)) return { token: await this.jwt.signAsync({ ...user }) };
         throw new BadRequestException('密码错误');
     }
 }
