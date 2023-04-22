@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
     constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService) {}
 
+    // 注册
     async register(dto: RegisterDTO) {
         return await this.prisma.learner.create({
             data: {
@@ -19,6 +20,7 @@ export class AuthService {
         });
     }
 
+    // 登录
     async login(dto: LoginDTO) {
         const user = await this.prisma.learner.findUnique({
             where: {
@@ -28,5 +30,13 @@ export class AuthService {
 
         if (await verify(user.password, dto.password)) return { token: await this.jwt.signAsync({ ...user }) };
         throw new BadRequestException('密码错误');
+    }
+
+    // 返回当前登录用户信息
+    async getCurrentUserInfo(userId: string) {
+        const { password, ...userInfo } = await this.prisma.learner.findUnique({
+            where: { id: userId },
+        });
+        return userInfo;
     }
 }
