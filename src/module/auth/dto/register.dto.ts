@@ -1,4 +1,5 @@
 import { IsNotExists } from '@/common/rules/is-not-exists.rule';
+import { IsSame } from '@/common/rules/is-same.rule';
 import { IsNotEmpty, Length, Matches } from 'class-validator';
 
 export class RegisterDTO {
@@ -14,6 +15,7 @@ export class RegisterDTO {
 
     @IsNotEmpty({ message: '密码不能为空' })
     @Length(3, 20, { message: '密码长度应为3~20字符' })
+    @IsSame({ message: '两次密码不一致' })
     password: string;
 
     @IsNotEmpty({ message: '确认密码不能为空' })
