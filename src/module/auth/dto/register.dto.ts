@@ -1,12 +1,14 @@
+import { IsNotExists } from '@/common/rules/is-not-exists.rule';
 import { IsNotEmpty, Length, Matches } from 'class-validator';
 
 export class RegisterDTO {
-    @IsNotEmpty({ message: '用户账号不能为空' })
-    @Length(1, 20, { message: '用户ID长度要求为1-20' })
-    @Matches(/^[\w-]*$/, { message: '用户ID只能由字母、数字、下划线、减号组成' })
+    @IsNotEmpty({ message: '账号不能为空' })
+    @Length(1, 20, { message: '账号长度要求为1-20' })
+    @Matches(/^[\w-]*$/, { message: '账号只能由字母、数字、下划线、减号组成' })
+    @IsNotExists('learner', { message: '该账号已被使用' })
     id: string;
 
-    @IsNotEmpty({ message: '用户名不能为空' })
+    @IsNotEmpty({ message: '昵称不能为空' })
     @Length(1, 15, { message: '昵称长度不能超过15' })
     username: string;
 
