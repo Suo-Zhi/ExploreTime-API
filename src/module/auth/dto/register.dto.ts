@@ -11,7 +11,7 @@ export class RegisterDTO {
 
     @IsNotEmpty({ message: '昵称不能为空' })
     @Length(1, 15, { message: '昵称长度不能超过15' })
-    username: string;
+    nickname: string;
 
     @IsNotEmpty({ message: '密码不能为空' })
     @Length(3, 20, { message: '密码长度应为3~20字符' })

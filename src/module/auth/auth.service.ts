@@ -14,7 +14,7 @@ export class AuthService {
         return await this.prisma.learner.create({
             data: {
                 id: dto.id,
-                username: dto.username,
+                nickname: dto.nickname,
                 password: await hash(dto.password),
             },
         });

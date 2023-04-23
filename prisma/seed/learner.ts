@@ -8,7 +8,7 @@ export const createLearner = async (n: number) => {
     await prisma.learner.create({
         data: {
             id: 'tom',
-            username: 'Tom',
+            nickname: 'Tom',
             password: await hash('123'),
             intro: Random.ctitle(0, 30),
             avatar: Random.image('140x140', randomAvatarColor(), 'T'),
@@ -17,21 +17,21 @@ export const createLearner = async (n: number) => {
     await prisma.learner.create({
         data: {
             id: 'jerry',
-            username: 'Jerry',
+            nickname: 'Jerry',
             password: await hash('123'),
             intro: Random.ctitle(0, 30),
             avatar: Random.image('140x140', randomAvatarColor(), 'J'),
         },
     });
     for (let i = 0; i < n - 2; i++) {
-        const username = Random.string(1, 15);
+        const nickname = Random.string(1, 15);
         await prisma.learner.create({
             data: {
                 id: Random.string('lower', 1, 20),
-                username,
+                nickname,
                 password: await hash(Random.string(1, 20)),
                 intro: Random.ctitle(0, 30),
-                avatar: Random.image('140x140', randomAvatarColor(), username.substring(0, 1)),
+                avatar: Random.image('140x140', randomAvatarColor(), nickname.substring(0, 1)),
             },
         });
     }
