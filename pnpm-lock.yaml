@@ -16,6 +16,7 @@ specifiers:
   '@types/express': ^4.17.13
   '@types/jest': 27.4.1
   '@types/mockjs': ^1.0.7
+  '@types/multer': ^1.4.7
   '@types/node': ^16.0.0
   '@types/passport-jwt': ^3.0.8
   '@types/supertest': ^2.0.11
@@ -30,6 +31,7 @@ specifiers:
   husky: ^8.0.0
   jest: ^27.2.5
   mockjs: ^1.1.0
+  multer: 1.4.5-lts.1
   passport: ^0.6.0
   passport-jwt: ^4.0.1
   prettier: ^2.3.2
@@ -59,6 +61,7 @@ dependencies:
   class-transformer: 0.5.1
   class-validator: 0.14.0
   mockjs: 1.1.0
+  multer: 1.4.5-lts.1
   passport: 0.6.0
   passport-jwt: 4.0.1
   prisma-binding: 2.3.16
@@ -76,6 +79,7 @@ devDependencies:
   '@types/express': 4.17.17
   '@types/jest': 27.4.1
   '@types/mockjs': 1.0.7
+  '@types/multer': 1.4.7
   '@types/node': 16.18.24
   '@types/passport-jwt': 3.0.8
   '@types/supertest': 2.0.12
@@ -1462,6 +1466,12 @@ packages:
 
   /@types/mockjs/1.0.7:
     resolution: {integrity: sha512-OCxXz6hEaJOVpRwuJMiVY5a6LtJcih+br9gwB/Q8ooOBikvk5FpBQ31OlNimXo3EqKha1Z7PFBni+q9m+8NCWg==}
+    dev: true
+
+  /@types/multer/1.4.7:
+    resolution: {integrity: sha512-/SNsDidUFCvqqcWDwxv2feww/yqhNeTRL5CVoL3jU4Goc4kKEL10T7Eye65ZqPNi4HRx8sAEX59pV1aEH7drNA==}
+    dependencies:
+      '@types/express': 4.17.17
     dev: true
 
   /@types/node/16.18.24:
@@ -4975,6 +4985,19 @@ packages:
       object-assign: 4.1.1
       type-is: 1.6.18
       xtend: 4.0.2
+
+  /multer/1.4.5-lts.1:
+    resolution: {integrity: sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      append-field: 1.0.0
+      busboy: 1.6.0
+      concat-stream: 1.6.2
+      mkdirp: 0.5.6
+      object-assign: 4.1.1
+      type-is: 1.6.18
+      xtend: 4.0.2
+    dev: false
 
   /mute-stream/0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
