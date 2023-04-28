@@ -24,7 +24,7 @@ model Info {
     content  String  @db.Text
     isRefine Boolean @default(false)
 
-    author     Learner? @relation(fields: [authorId], references: [id])
+    author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     authorId   String   @db.VarChar(20)
     createTime DateTime @default(now())
     updateTime DateTime @updatedAt
