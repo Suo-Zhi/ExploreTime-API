@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDTO } from './dto/register.dto';
 import { LoginDTO } from './dto/login.dto';
-import { Auth } from 'module/auth/jwt/auth.decorator';
+import { Auth } from '@/module/auth/jwt/auth.decorator';
 import { CurrentUser } from './jwt/user.decorator';
 import { Learner } from '@prisma/client';
 

@@ -1,5 +1,5 @@
 import { Controller, Post, UploadedFile } from '@nestjs/common';
-import { Auth } from 'module/auth/jwt/auth.decorator';
+import { Auth } from '@/module/auth/jwt/auth.decorator';
 import { UploadImage } from './upload.decorator';
 
 @Controller('upload')
