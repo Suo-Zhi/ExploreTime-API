@@ -25,4 +25,17 @@ export class InfoService {
             },
         });
     }
+
+    remove(id: number) {
+        return this.prisma.info.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
+
+    delete(id: number) {
+        return this.prisma.info.delete({
+            where: { id },
+        });
+    }
 }

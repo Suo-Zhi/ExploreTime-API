@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { InfoService } from './info.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
@@ -19,5 +19,15 @@ export class InfoController {
     @Post()
     create(@Body() dto: CreateInfoDTO, @CurrentUser() user: Learner) {
         return this.infoService.create(dto, user.id);
+    }
+
+    @Patch('remove:id')
+    remove(@Param('id') id: number) {
+        return this.infoService.remove(+id);
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.infoService.delete(+id);
     }
 }
