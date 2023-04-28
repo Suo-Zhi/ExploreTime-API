@@ -5,6 +5,7 @@ import { CurrentUser } from '../auth/jwt/user.decorator';
 import { Learner } from '@prisma/client';
 import { FindInfoDTO } from './dto/find-info.dto';
 import { CreateInfoDTO } from './dto/create-info.dto';
+import { UpdateInfoDTO } from './dto/update-info.dto';
 
 @Auth()
 @Controller('info')
@@ -34,5 +35,10 @@ export class InfoController {
     @Patch('refine:id')
     toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
         return this.infoService.toggleRefine(+id, value);
+    }
+
+    @Patch('content:id')
+    updateContent(@Param('id') id: number, @Body() dto: UpdateInfoDTO) {
+        return this.infoService.updateContent(+id, dto);
     }
 }

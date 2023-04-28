@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { SortInfo } from './dto/find-info.dto';
 import { CreateInfoDTO } from './dto/create-info.dto';
+import { UpdateInfoDTO } from './dto/update-info.dto';
 
 @Injectable()
 export class InfoService {
@@ -43,6 +44,13 @@ export class InfoService {
         return this.prisma.info.update({
             where: { id },
             data: { isRefine: value },
+        });
+    }
+
+    updateContent(id: number, dto: UpdateInfoDTO) {
+        return this.prisma.info.update({
+            where: { id },
+            data: { content: dto.content },
         });
     }
 }
