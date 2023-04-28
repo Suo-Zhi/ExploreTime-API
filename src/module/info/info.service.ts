@@ -38,4 +38,11 @@ export class InfoService {
             where: { id },
         });
     }
+
+    toggleRefine(id: number, value: boolean) {
+        return this.prisma.info.update({
+            where: { id },
+            data: { isRefine: value },
+        });
+    }
 }

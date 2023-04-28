@@ -30,4 +30,9 @@ export class InfoController {
     delete(@Param('id') id: number) {
         return this.infoService.delete(+id);
     }
+
+    @Patch('refine:id')
+    toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
+        return this.infoService.toggleRefine(+id, value);
+    }
 }
