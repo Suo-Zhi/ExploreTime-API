@@ -1,6 +1,8 @@
 import { createLearner } from './learner';
+import { createInfo } from './info';
 
 const run = async () => {
-    createLearner(10);
+    await createLearner(10);
+    await createInfo(20);
 };
 run();

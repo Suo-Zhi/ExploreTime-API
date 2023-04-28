@@ -15,4 +15,17 @@ model Learner {
     phone    String? @db.VarChar(11)
     avatar   String?
     intro    String? @db.VarChar(30)
+
+    Info Info[]
+}
+
+model Info {
+    id       Int     @id @default(autoincrement())
+    content  String  @db.Text
+    isRefine Boolean @default(false)
+
+    author     Learner? @relation(fields: [authorId], references: [id])
+    authorId   String   @db.VarChar(20)
+    createTime DateTime @default(now())
+    updateTime DateTime @updatedAt
 }
