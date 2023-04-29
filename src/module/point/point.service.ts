@@ -15,4 +15,18 @@ export class PointService {
             orderBy: { [sort.field]: sort.order },
         });
     }
+
+    remove(id: number) {
+        return this.prisma.point.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
+
+    toggleRefine(id: number, value: boolean) {
+        return this.prisma.point.update({
+            where: { id },
+            data: { isRefine: value },
+        });
+    }
 }
