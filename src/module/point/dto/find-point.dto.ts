@@ -1,17 +1,17 @@
 import { IsIn, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class SortInfo {
+export class SortPoint {
     @IsIn(['createTime', 'updateTime'])
     field: string;
     @IsIn(['asc', 'desc'])
     order: string;
 }
 
-export class FindInfoDTO {
+export class FindPointDTO {
     keywords: string;
 
     @ValidateNested()
-    @Type(() => SortInfo)
-    sort: SortInfo;
+    @Type(() => SortPoint)
+    sort: SortPoint;
 }
