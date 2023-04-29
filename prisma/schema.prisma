@@ -16,11 +16,25 @@ model Learner {
     avatar   String?
     intro    String? @db.VarChar(30)
 
-    Info Info[]
+    Info  Info[]
+    Point Point[]
 }
 
 model Info {
     id       Int     @id @default(autoincrement())
+    content  String  @db.Text
+    isRefine Boolean @default(false)
+
+    isDel      Boolean  @default(false)
+    author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    authorId   String   @db.VarChar(20)
+    createTime DateTime @default(now())
+    updateTime DateTime @updatedAt
+}
+
+model Point {
+    id       Int     @id @default(autoincrement())
+    name     String  @db.VarChar(50)
     content  String  @db.Text
     isRefine Boolean @default(false)
 
