@@ -4,6 +4,7 @@ import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
 import { FindPointDTO } from './dto/find-point.dto';
 import { Learner } from '@prisma/client';
+import { UpdatePointDTO } from './dto/update-point.dto';
 
 @Controller('point')
 export class PointController {
@@ -25,5 +26,11 @@ export class PointController {
     @Patch('refine:id')
     toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
         return this.pointService.toggleRefine(+id, value);
+    }
+
+    @Auth()
+    @Patch('body:id')
+    updateBody(@Param('id') id: number, @Body() dto: UpdatePointDTO) {
+        return this.pointService.updateBody(+id, dto);
     }
 }
