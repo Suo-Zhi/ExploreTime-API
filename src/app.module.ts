@@ -5,6 +5,7 @@ import { PrismaModule } from './common/module/prisma/prisma.module';
 import { AuthModule } from './module/auth/auth.module';
 import { UploadModule } from './common/module/upload/upload.module';
 import { InfoModule } from './module/info/info.module';
+import { PointModule } from './module/point/point.module';
 import config from '@/config';
 
 @Module({
@@ -17,6 +18,7 @@ import config from '@/config';
         AuthModule,
         UploadModule,
         InfoModule,
+        PointModule,
     ],
     controllers: [AppController],
     providers: [],
