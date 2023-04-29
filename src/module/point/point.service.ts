@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { SortPoint } from './dto/find-point.dto';
 import { UpdatePointDTO } from './dto/update-point.dto';
+import { CreatePointDTO } from './dto/create-point.dto';
 
 @Injectable()
 export class PointService {
@@ -35,6 +36,15 @@ export class PointService {
         return this.prisma.point.update({
             where: { id },
             data: { ...dto },
+        });
+    }
+
+    create(dto: CreatePointDTO, userId: string) {
+        return this.prisma.point.create({
+            data: {
+                ...dto,
+                authorId: userId,
+            },
         });
     }
 }

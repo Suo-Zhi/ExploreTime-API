@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { PointService } from './point.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
 import { FindPointDTO } from './dto/find-point.dto';
 import { Learner } from '@prisma/client';
 import { UpdatePointDTO } from './dto/update-point.dto';
+import { CreatePointDTO } from './dto/create-point.dto';
 
 @Controller('point')
 export class PointController {
@@ -32,5 +33,11 @@ export class PointController {
     @Patch('body:id')
     updateBody(@Param('id') id: number, @Body() dto: UpdatePointDTO) {
         return this.pointService.updateBody(+id, dto);
+    }
+
+    @Auth()
+    @Post()
+    create(@Body() dto: CreatePointDTO, @CurrentUser() user: Learner) {
+        return this.pointService.create(dto, user.id);
     }
 }
