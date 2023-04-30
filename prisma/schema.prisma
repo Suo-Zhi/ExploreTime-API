@@ -44,3 +44,15 @@ model Point {
     createTime DateTime @default(now())
     updateTime DateTime @updatedAt
 }
+
+model Relate {
+    id Int @id @default(autoincrement())
+
+    targetId   Int
+    targetType String
+
+    relateId   Int
+    relateType String
+
+    createTime DateTime @default(now())
+}
