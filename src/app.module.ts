@@ -6,6 +6,7 @@ import { AuthModule } from './module/auth/auth.module';
 import { UploadModule } from './common/module/upload/upload.module';
 import { InfoModule } from './module/info/info.module';
 import { PointModule } from './module/point/point.module';
+import { RelateModule } from './module/relate/relate.module';
 import config from '@/config';
 
 @Module({
@@ -19,6 +20,7 @@ import config from '@/config';
         UploadModule,
         InfoModule,
         PointModule,
+        RelateModule,
     ],
     controllers: [AppController],
     providers: [],
