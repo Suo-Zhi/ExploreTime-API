@@ -55,4 +55,11 @@ export class ChunkService {
             };
         });
     }
+
+    remove(id: number) {
+        return this.prisma.chunk.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
 }

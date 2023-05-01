@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { ChunkService } from './chunk.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { FindChunkDTO } from './dto/find-chunk.dto';
@@ -13,5 +13,11 @@ export class ChunkController {
     @Get('my')
     findMy(@Query() dto: FindChunkDTO, @CurrentUser() user: Learner) {
         return this.chunkService.findMy(dto.keywords, dto.sort, user.id);
+    }
+
+    @Auth()
+    @Patch('remove:id')
+    remove(@Param('id') id: number) {
+        return this.chunkService.remove(+id);
     }
 }

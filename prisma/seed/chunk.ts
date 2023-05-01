@@ -8,8 +8,8 @@ export const createChunk = async (n: number) => {
         await prisma.chunk.create({
             data: {
                 name: Random.ctitle(),
-                preface: Random.cparagraph(0, 40),
-                endnote: Random.cparagraph(0, 40),
+                preface: Random.csentence(0, 40),
+                endnote: Random.csentence(0, 40),
                 isRefine: Random.boolean(),
                 authorId: 'tom',
             },
