@@ -10,6 +10,7 @@ export const createChunk = async (n: number) => {
                 name: Random.ctitle(),
                 preface: Random.cparagraph(0, 40),
                 endnote: Random.cparagraph(0, 40),
+                isRefine: Random.boolean(),
                 authorId: 'tom',
             },
         });
