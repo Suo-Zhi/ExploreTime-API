@@ -46,13 +46,12 @@ model Point {
 }
 
 model Relate {
-    id Int @id @default(autoincrement())
-
     targetId   Int
     targetType String
-
     relateId   Int
     relateType String
 
     createTime DateTime @default(now())
+
+    @@id([targetId, targetType, relateId, relateType])
 }
