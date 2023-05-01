@@ -62,4 +62,11 @@ export class ChunkService {
             data: { isDel: true },
         });
     }
+
+    toggleRefine(id: number, value: boolean) {
+        return this.prisma.chunk.update({
+            where: { id },
+            data: { isRefine: value },
+        });
+    }
 }

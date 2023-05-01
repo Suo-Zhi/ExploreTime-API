@@ -20,4 +20,10 @@ export class ChunkController {
     remove(@Param('id') id: number) {
         return this.chunkService.remove(+id);
     }
+
+    @Auth()
+    @Patch('refine:id')
+    toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
+        return this.chunkService.toggleRefine(+id, value);
+    }
 }
