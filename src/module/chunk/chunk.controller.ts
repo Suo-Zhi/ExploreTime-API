@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ChunkService } from './chunk.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { FindChunkDTO } from './dto/find-chunk.dto';
 import { CurrentUser } from '../auth/jwt/user.decorator';
 import { Learner } from '@prisma/client';
 import { UpdateChunkDTO } from './dto/update-chunk.dto';
+import { CreateChunkDTO } from './dto/create-chunk.dto';
 
 @Controller('chunk')
 export class ChunkController {
@@ -32,5 +33,11 @@ export class ChunkController {
     @Patch(':id')
     update(@Param('id') id: number, @Body() dto: UpdateChunkDTO) {
         return this.chunkService.update(+id, dto);
+    }
+
+    @Auth()
+    @Post()
+    create(@Body() dto: CreateChunkDTO, @CurrentUser() user: Learner) {
+        return this.chunkService.create(dto, user.id);
     }
 }

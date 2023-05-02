@@ -1,7 +1,8 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { FindChunkDTO, SortChunk } from './dto/find-chunk.dto';
+import { SortChunk } from './dto/find-chunk.dto';
 import { UpdateChunkDTO } from './dto/update-chunk.dto';
+import { CreateChunkDTO } from './dto/create-chunk.dto';
 
 @Injectable()
 export class ChunkService {
@@ -75,6 +76,15 @@ export class ChunkService {
         return this.prisma.chunk.update({
             where: { id },
             data: { ...dto },
+        });
+    }
+
+    create(dto: CreateChunkDTO, userId: string) {
+        return this.prisma.chunk.create({
+            data: {
+                ...dto,
+                authorId: userId,
+            },
         });
     }
 }
