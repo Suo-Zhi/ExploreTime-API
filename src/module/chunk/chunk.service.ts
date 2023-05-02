@@ -87,4 +87,11 @@ export class ChunkService {
             },
         });
     }
+
+    updateTime(id: number) {
+        return this.prisma.chunk.update({
+            where: { id },
+            data: { updateTime: new Date() },
+        });
+    }
 }

@@ -30,6 +30,12 @@ export class ChunkController {
     }
 
     @Auth()
+    @Patch('time:id')
+    updateTime(@Param('id') id: number) {
+        return this.chunkService.updateTime(+id);
+    }
+
+    @Auth()
     @Patch(':id')
     update(@Param('id') id: number, @Body() dto: UpdateChunkDTO) {
         return this.chunkService.update(+id, dto);
