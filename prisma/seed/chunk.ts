@@ -20,7 +20,7 @@ export const createChunk = async (n: number) => {
 
 const addChunkContent = async (n: number) => {
     for (let i = 1; i <= n / 3; i++) {
-        let k = 1;
+        let k = 0;
         for (let j = 3 * i - 2; j <= 3 * i; j++) {
             await prisma.chunkContent.create({
                 data: {

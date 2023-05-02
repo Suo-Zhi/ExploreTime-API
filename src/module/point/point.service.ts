@@ -32,7 +32,7 @@ export class PointService {
         });
     }
 
-    updateBody(id: number, dto: UpdatePointDTO) {
+    update(id: number, dto: UpdatePointDTO) {
         return this.prisma.point.update({
             where: { id },
             data: { ...dto },

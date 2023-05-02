@@ -30,9 +30,9 @@ export class PointController {
     }
 
     @Auth()
-    @Patch('body:id')
-    updateBody(@Param('id') id: number, @Body() dto: UpdatePointDTO) {
-        return this.pointService.updateBody(+id, dto);
+    @Patch(':id')
+    update(@Param('id') id: number, @Body() dto: UpdatePointDTO) {
+        return this.pointService.update(+id, dto);
     }
 
     @Auth()
