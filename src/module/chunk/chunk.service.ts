@@ -1,6 +1,7 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { FindChunkDTO, SortChunk } from './dto/find-chunk.dto';
+import { UpdateChunkDTO } from './dto/update-chunk.dto';
 
 @Injectable()
 export class ChunkService {
@@ -67,6 +68,13 @@ export class ChunkService {
         return this.prisma.chunk.update({
             where: { id },
             data: { isRefine: value },
+        });
+    }
+
+    update(id: number, dto: UpdateChunkDTO) {
+        return this.prisma.chunk.update({
+            where: { id },
+            data: { ...dto },
         });
     }
 }
