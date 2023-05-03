@@ -8,9 +8,9 @@ import { CreateRelateDTO } from './dto/create-relate.dto';
 export class RelateController {
     constructor(private readonly relateService: RelateService) {}
 
-    @Get()
-    findType(@Query() dto: FindRelateDTO) {
-        return this.relateService.findType(dto);
+    @Get('point')
+    findPoint(@Query() dto: FindRelateDTO) {
+        return this.relateService.findPoint(dto);
     }
 
     @Delete()

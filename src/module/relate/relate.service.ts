@@ -9,17 +9,25 @@ import { CreateRelateDTO } from './dto/create-relate.dto';
 export class RelateService {
     constructor(private readonly prisma: PrismaService) {}
 
+    // 获取关联知识点详情
+    async findPoint(dto: FindRelateDTO) {
+        const relations = await this.findType(dto);
+        return await this.prisma.point.findMany({
+            where: {
+                id: { in: relations },
+                OR: [{ name: { contains: dto.keywords } }, { content: { contains: dto.keywords } }],
+            },
+        });
+    }
+
     // 查询指定类型的关联项
     async findType(dto: FindRelateDTO) {
-        const relations = await this.prisma.relate
+        const res1 = await this.prisma.relate
             .findMany({
                 where: {
                     targetId: +dto.targetId,
                     targetType: dto.targetType,
                     relateType: dto.relateType,
-                },
-                select: {
-                    relateId: true,
                 },
             })
             .then((res) => {
@@ -28,12 +36,21 @@ export class RelateService {
                 });
             });
 
-        return await this.prisma[dto.relateType].findMany({
-            where: {
-                id: { in: relations },
-                OR: [{ name: { contains: dto.keywords } }, { content: { contains: dto.keywords } }],
-            },
-        });
+        const res2 = await this.prisma.relate
+            .findMany({
+                where: {
+                    relateId: +dto.targetId,
+                    relateType: dto.targetType,
+                    targetType: dto.relateType,
+                },
+            })
+            .then((res) => {
+                return res.map((relation) => {
+                    return relation.targetId;
+                });
+            });
+
+        return [...res1, ...res2];
     }
 
     delete(dto: DelRelateDTO) {
