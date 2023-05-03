@@ -1,7 +1,43 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { SortTree } from './dto/find-tree.dto';
 
 @Injectable()
 export class TreeService {
     constructor(private readonly prisma: PrismaService) {}
+
+    async findMy(keywords: string, sort: SortTree, userId: string) {
+        let list = [];
+
+        // 搜索树
+        const trees = await this.prisma.tree.findMany({
+            where: {
+                OR: [{ name: { contains: keywords } }, { preface: { contains: keywords } }],
+                authorId: userId,
+            },
+            orderBy: { [sort.field]: sort.order },
+        });
+
+        // 统计知识块和知识点
+        for (let i = 0; i < trees.length; i++) {
+            const chunkTotal = await this.prisma.treeNode.count({
+                where: { treeId: trees[i].id },
+            });
+            const pointTotal = await this.prisma.point.count({
+                where: {
+                    ChunkContent: {
+                        some: {
+                            Chunk: {
+                                Node: {
+                                    some: { treeId: trees[i].id },
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            list.push({ ...trees[i], chunkTotal, pointTotal });
+        }
+        return list;
+    }
 }
