@@ -80,6 +80,7 @@ model ChunkContent {
 
 model Tree {
     id       Int     @id @default(autoincrement())
+    name     String  @db.VarChar(50)
     preface  String  @db.Text
     isPublic Boolean @default(false)
 
