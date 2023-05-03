@@ -1,5 +1,5 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { FindRelateDTO } from './dto/find-relate.dto';
 import { DelRelateDTO } from './dto/del-relate.dto';
 import { plainToClass } from 'class-transformer';
@@ -123,7 +123,17 @@ export class RelateService {
         });
     }
 
-    create(dto: CreateRelateDTO) {
+    async create(dto: CreateRelateDTO) {
+        // 不能关联本身
+        if (dto.targetId === dto.relateId && dto.targetType === dto.relateType)
+            return { status: 0, msg: '不能关联本身' };
+
+        // 不能重复关联
+        const res = await this.prisma.relate.findUnique({
+            where: { targetId_targetType_relateId_relateType: { ...dto } },
+        });
+        if (res) return { status: 0, msg: '已存在该关联' };
+
         return this.prisma.relate.create({
             data: { ...dto },
         });
