@@ -8,6 +8,7 @@ import { InfoModule } from './module/info/info.module';
 import { PointModule } from './module/point/point.module';
 import { RelateModule } from './module/relate/relate.module';
 import { ChunkModule } from './module/chunk/chunk.module';
+import { TreeModule } from './module/tree/tree.module';
 import config from '@/config';
 
 @Module({
@@ -23,6 +24,7 @@ import config from '@/config';
         PointModule,
         RelateModule,
         ChunkModule,
+        TreeModule,
     ],
     controllers: [AppController],
     providers: [],
