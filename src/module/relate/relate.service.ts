@@ -20,6 +20,55 @@ export class RelateService {
         });
     }
 
+    // 获取关联知识点详情
+    async findChunk(dto: FindRelateDTO) {
+        const relations = await this.findType(dto);
+        const res = await this.prisma.chunk.findMany({
+            where: {
+                id: { in: relations },
+                OR: [
+                    { name: { contains: dto.keywords } },
+                    { preface: { contains: dto.keywords } },
+                    { endnote: { contains: dto.keywords } },
+                    {
+                        ChunkContent: {
+                            some: {
+                                point: {
+                                    OR: [{ name: { contains: dto.keywords } }, { content: { contains: dto.keywords } }],
+                                },
+                            },
+                        },
+                    },
+                ],
+            },
+            include: {
+                ChunkContent: {
+                    select: { order: true, point: true },
+                    orderBy: { order: 'asc' },
+                },
+            },
+        });
+
+        // 修改响应数据格式
+        return res.map(({ ChunkContent, ...chunk }) => {
+            const regExp = new RegExp(dto.keywords);
+
+            return {
+                ...chunk,
+                content: ChunkContent.map((chunkContent) => {
+                    return {
+                        ...chunkContent.point,
+                        order: chunkContent.order,
+                        isMatch:
+                            dto.keywords === ''
+                                ? false
+                                : regExp.test(chunkContent.point.name) || regExp.test(chunkContent.point.content),
+                    };
+                }),
+            };
+        });
+    }
+
     // 查询指定类型的关联项
     async findType(dto: FindRelateDTO) {
         const res1 = await this.prisma.relate

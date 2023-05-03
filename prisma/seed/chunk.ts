@@ -16,6 +16,7 @@ export const createChunk = async (n: number) => {
         });
     }
     await addChunkContent(n);
+    await relateChunk(n / 3);
 };
 
 const addChunkContent = async (n: number) => {
@@ -31,5 +32,32 @@ const addChunkContent = async (n: number) => {
             });
             k++;
         }
+    }
+};
+
+const relateChunk = async (n: number) => {
+    for (let i = 1; i <= n; i++) {
+        await prisma.relate.createMany({
+            data: [
+                {
+                    targetId: i,
+                    targetType: 'chunk',
+                    relateId: i + 1 <= n ? i + 1 : 1,
+                    relateType: 'chunk',
+                },
+                {
+                    targetId: i,
+                    targetType: 'chunk',
+                    relateId: i + 2 <= n ? i + 2 : 2,
+                    relateType: 'chunk',
+                },
+                {
+                    targetId: i,
+                    targetType: 'chunk',
+                    relateId: i + 3 <= n ? i + 3 : 3,
+                    relateType: 'chunk',
+                },
+            ],
+        });
     }
 };
