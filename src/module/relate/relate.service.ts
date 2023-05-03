@@ -103,10 +103,22 @@ export class RelateService {
     }
 
     delete(dto: DelRelateDTO) {
-        dto = plainToClass(DelRelateDTO, dto);
-        return this.prisma.relate.delete({
+        return this.prisma.relate.deleteMany({
             where: {
-                targetId_targetType_relateId_relateType: { ...dto },
+                OR: [
+                    {
+                        targetId: +dto.targetId,
+                        targetType: dto.targetType,
+                        relateId: +dto.relateId,
+                        relateType: dto.relateType,
+                    },
+                    {
+                        targetId: +dto.relateId,
+                        targetType: dto.relateType,
+                        relateId: +dto.targetId,
+                        relateType: dto.targetType,
+                    },
+                ],
             },
         });
     }
