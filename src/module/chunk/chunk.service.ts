@@ -18,7 +18,7 @@ export class ChunkService {
                     {
                         ChunkContent: {
                             some: {
-                                point: {
+                                Point: {
                                     OR: [{ name: { contains: keywords } }, { content: { contains: keywords } }],
                                 },
                             },
@@ -29,7 +29,7 @@ export class ChunkService {
             },
             include: {
                 ChunkContent: {
-                    select: { order: true, point: true },
+                    select: { order: true, Point: true },
                     orderBy: { order: 'asc' },
                 },
             },
@@ -46,12 +46,12 @@ export class ChunkService {
                 ...chunk,
                 content: ChunkContent.map((chunkContent) => {
                     return {
-                        ...chunkContent.point,
+                        ...chunkContent.Point,
                         order: chunkContent.order,
                         isMatch:
                             keywords === ''
                                 ? false
-                                : regExp.test(chunkContent.point.name) || regExp.test(chunkContent.point.content),
+                                : regExp.test(chunkContent.Point.name) || regExp.test(chunkContent.Point.content),
                     };
                 }),
             };

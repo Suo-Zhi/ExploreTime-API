@@ -33,7 +33,7 @@ export class RelateService {
                     {
                         ChunkContent: {
                             some: {
-                                point: {
+                                Point: {
                                     OR: [{ name: { contains: dto.keywords } }, { content: { contains: dto.keywords } }],
                                 },
                             },
@@ -43,7 +43,7 @@ export class RelateService {
             },
             include: {
                 ChunkContent: {
-                    select: { order: true, point: true },
+                    select: { order: true, Point: true },
                     orderBy: { order: 'asc' },
                 },
             },
@@ -57,12 +57,12 @@ export class RelateService {
                 ...chunk,
                 content: ChunkContent.map((chunkContent) => {
                     return {
-                        ...chunkContent.point,
+                        ...chunkContent.Point,
                         order: chunkContent.order,
                         isMatch:
                             dto.keywords === ''
                                 ? false
-                                : regExp.test(chunkContent.point.name) || regExp.test(chunkContent.point.content),
+                                : regExp.test(chunkContent.Point.name) || regExp.test(chunkContent.Point.content),
                     };
                 }),
             };
