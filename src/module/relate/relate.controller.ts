@@ -1,19 +1,25 @@
-import { Controller, Delete, Get, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { RelateService } from './relate.service';
 import { FindRelateDTO } from './dto/find-relate.dto';
 import { DelRelateDTO } from './dto/del-relate.dto';
+import { CreateRelateDTO } from './dto/create-relate.dto';
 
 @Controller('relate')
 export class RelateController {
     constructor(private readonly relateService: RelateService) {}
 
     @Get()
-    findRelate(@Query() dto: FindRelateDTO) {
-        return this.relateService.findRelate(dto);
+    findType(@Query() dto: FindRelateDTO) {
+        return this.relateService.findType(dto);
     }
 
     @Delete()
-    delRelate(@Query() dto: DelRelateDTO) {
-        return this.relateService.delRelate(dto);
+    delete(@Query() dto: DelRelateDTO) {
+        return this.relateService.delete(dto);
+    }
+
+    @Post()
+    createRelate(@Body() dto: CreateRelateDTO) {
+        return this.relateService.create(dto);
     }
 }

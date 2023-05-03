@@ -3,12 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { FindRelateDTO } from './dto/find-relate.dto';
 import { DelRelateDTO } from './dto/del-relate.dto';
 import { plainToClass } from 'class-transformer';
+import { CreateRelateDTO } from './dto/create-relate.dto';
 
 @Injectable()
 export class RelateService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findRelate(dto: FindRelateDTO) {
+    // 查询指定类型的关联项
+    async findType(dto: FindRelateDTO) {
         const relations = await this.prisma.relate
             .findMany({
                 where: {
@@ -34,14 +36,18 @@ export class RelateService {
         });
     }
 
-    async delRelate(dto: DelRelateDTO) {
+    delete(dto: DelRelateDTO) {
         dto = plainToClass(DelRelateDTO, dto);
         return this.prisma.relate.delete({
             where: {
-                targetId_targetType_relateId_relateType: {
-                    ...dto,
-                },
+                targetId_targetType_relateId_relateType: { ...dto },
             },
+        });
+    }
+
+    create(dto: CreateRelateDTO) {
+        return this.prisma.relate.create({
+            data: { ...dto },
         });
     }
 }
