@@ -69,6 +69,17 @@ export class RelateService {
         });
     }
 
+    // 获取关联知识树详情
+    async findTree(dto: FindRelateDTO) {
+        const relations = await this.findType(dto);
+        return await this.prisma.tree.findMany({
+            where: {
+                id: { in: relations },
+                OR: [{ name: { contains: dto.keywords } }, { preface: { contains: dto.keywords } }],
+            },
+        });
+    }
+
     // 查询指定类型的关联项
     async findType(dto: FindRelateDTO) {
         const res1 = await this.prisma.relate

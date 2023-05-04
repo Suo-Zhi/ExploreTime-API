@@ -18,6 +18,11 @@ export class RelateController {
         return this.relateService.findChunk(dto);
     }
 
+    @Get('tree')
+    findTree(@Query() dto: FindRelateDTO) {
+        return this.relateService.findTree(dto);
+    }
+
     @Delete()
     delete(@Query() dto: DelRelateDTO) {
         return this.relateService.delete(dto);
