@@ -2,6 +2,7 @@ import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { SortTree } from './dto/find-tree.dto';
 import { UpdateTreeDTO } from './dto/update-tree.dto';
+import { CreateTreeDTO } from './dto/create-tree.dto';
 
 @Injectable()
 export class TreeService {
@@ -60,6 +61,15 @@ export class TreeService {
         return this.prisma.tree.update({
             where: { id },
             data: { ...dto },
+        });
+    }
+
+    create(dto: CreateTreeDTO, userId: string) {
+        return this.prisma.tree.create({
+            data: {
+                ...dto,
+                authorId: userId,
+            },
         });
     }
 }
