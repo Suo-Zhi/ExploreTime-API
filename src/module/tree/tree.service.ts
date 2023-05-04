@@ -40,4 +40,11 @@ export class TreeService {
         }
         return list;
     }
+
+    remove(id: number) {
+        return this.prisma.tree.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
 }
