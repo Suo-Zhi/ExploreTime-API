@@ -4,6 +4,7 @@ import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
 import { Learner } from '@prisma/client';
 import { FindTreeDTO } from './dto/find-tree.dto';
+import { UpdateTreeDTO } from './dto/update-tree.dto';
 
 @Controller('tree')
 export class TreeController {
@@ -25,5 +26,11 @@ export class TreeController {
     @Patch('public:id')
     toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
         return this.treeService.togglePublic(+id, value);
+    }
+
+    @Auth()
+    @Patch(':id')
+    update(@Param('id') id: number, @Body() dto: UpdateTreeDTO) {
+        return this.treeService.update(+id, dto);
     }
 }
