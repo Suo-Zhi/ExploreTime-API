@@ -47,4 +47,11 @@ export class TreeService {
             data: { isDel: true },
         });
     }
+
+    togglePublic(id: number, value: boolean) {
+        return this.prisma.tree.update({
+            where: { id },
+            data: { isPublic: value },
+        });
+    }
 }

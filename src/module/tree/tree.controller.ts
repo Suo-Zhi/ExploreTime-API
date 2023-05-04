@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { TreeService } from './tree.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
@@ -19,5 +19,11 @@ export class TreeController {
     @Patch('remove:id')
     remove(@Param('id') id: number) {
         return this.treeService.remove(+id);
+    }
+
+    @Auth()
+    @Patch('public:id')
+    toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
+        return this.treeService.togglePublic(+id, value);
     }
 }
