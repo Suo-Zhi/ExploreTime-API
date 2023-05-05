@@ -1,6 +1,8 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { TreeNode } from '@prisma/client';
+import { UpsertTreeNodeDTO } from './dto/upsert-treeNode.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class TreeNodeService {
@@ -47,11 +49,30 @@ export class TreeNodeService {
             });
             return {
                 ...chunk, // 节点对应的块信息
+                nodeId: node.id, // 节点Id
                 order: node.order, // 节点在层中的顺序
                 content, // 块内容
                 deep, // 层级
                 nodes: this.getChildNode(nodes, node.id, deep + 1), // 子节点
             };
+        });
+    }
+
+    upsert(id: number, dto: UpsertTreeNodeDTO) {
+        dto = plainToClass(UpsertTreeNodeDTO, dto);
+        console.log(dto);
+
+        return this.prisma.treeNode.upsert({
+            where: { id },
+            update: {
+                ...dto,
+            },
+            create: {
+                treeId: +dto.treeId,
+                parentNodeId: +dto.parentNodeId,
+                order: +dto.order,
+                nodeId: +dto.nodeId,
+            },
         });
     }
 }

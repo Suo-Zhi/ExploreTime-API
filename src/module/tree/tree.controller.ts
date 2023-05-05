@@ -30,6 +30,12 @@ export class TreeController {
     }
 
     @Auth()
+    @Patch('time:id')
+    updateTime(@Param('id') id: number) {
+        return this.treeService.updateTime(+id);
+    }
+
+    @Auth()
     @Patch(':id')
     update(@Param('id') id: number, @Body() dto: UpdateTreeDTO) {
         return this.treeService.update(+id, dto);

@@ -23,12 +23,20 @@ const addTreeNode = async () => {
             { treeId: 1, parentNodeId: null, order: 1, nodeId: 2 }, // 2
             { treeId: 1, parentNodeId: 1, order: 0, nodeId: 3 }, // 1-1
             { treeId: 1, parentNodeId: 1, order: 1, nodeId: 4 }, // 1-2
+
             { treeId: 1, parentNodeId: 1, order: 2, nodeId: 5 }, // 1-3
             { treeId: 1, parentNodeId: 2, order: 0, nodeId: 6 }, // 2-1
             { treeId: 1, parentNodeId: 2, order: 1, nodeId: 1 }, // 2-2
             { treeId: 1, parentNodeId: 2, order: 2, nodeId: 2 }, // 2-3
-            { treeId: 1, parentNodeId: 7, order: 0, nodeId: 3 }, // 2-2-1
-            { treeId: 1, parentNodeId: 7, order: 0, nodeId: 4 }, // 2-2-2
+
+            { treeId: 1, parentNodeId: 3, order: 0, nodeId: 3 }, // 1-1-1
+            { treeId: 1, parentNodeId: 3, order: 1, nodeId: 4 }, // 1-1-2
+            { treeId: 1, parentNodeId: 9, order: 0, nodeId: 4 }, // 1-1-1-1
+            { treeId: 1, parentNodeId: 9, order: 1, nodeId: 4 }, // 1-1-1-2
+
+            { treeId: 1, parentNodeId: 12, order: 0, nodeId: 4 }, // 1-1-1-1-1
+
+            { treeId: 1, parentNodeId: null, order: 2, nodeId: 3 }, // 3
         ],
     });
 };

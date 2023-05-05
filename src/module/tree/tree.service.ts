@@ -72,4 +72,11 @@ export class TreeService {
             },
         });
     }
+
+    updateTime(id: number) {
+        return this.prisma.tree.update({
+            where: { id },
+            data: { updateTime: new Date() },
+        });
+    }
 }
