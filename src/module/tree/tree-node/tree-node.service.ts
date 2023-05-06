@@ -97,4 +97,10 @@ export class TreeNodeService {
             },
         });
     }
+
+    delete(id: number) {
+        return this.prisma.treeNode.delete({
+            where: { id },
+        });
+    }
 }
