@@ -93,10 +93,7 @@ export class TreeNodeService {
                 ...dto,
             },
             create: {
-                treeId: +dto.treeId,
-                parentNodeId: +dto.parentNodeId,
-                order: +dto.order,
-                nodeId: +dto.nodeId,
+                ...dto,
             },
         });
     }
