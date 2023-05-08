@@ -16,10 +16,11 @@ model Learner {
     avatar   String?
     intro    String? @db.VarChar(30)
 
-    Info  Info[]
-    Point Point[]
-    Chunk Chunk[]
-    Tree  Tree[]
+    Info     Info[]
+    Point    Point[]
+    Chunk    Chunk[]
+    Tree     Tree[]
+    Feedback Feedback[]
 }
 
 model Info {
@@ -117,4 +118,16 @@ model Relate {
     createTime DateTime @default(now())
 
     @@id([targetId, targetType, relateId, relateType])
+}
+
+model Feedback {
+    id      Int    @id @default(autoincrement())
+    content String @db.Text
+
+    targetId   Int
+    targetType String
+
+    author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    authorId   String   @db.VarChar(20)
+    createTime DateTime @default(now())
 }
