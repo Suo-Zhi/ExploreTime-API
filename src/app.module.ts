@@ -10,6 +10,7 @@ import { RelateModule } from './module/relate/relate.module';
 import { ChunkModule } from './module/chunk/chunk.module';
 import { TreeModule } from './module/tree/tree.module';
 import { FeedbackModule } from './module/feedback/feedback.module';
+import { LearnerModule } from './module/learner/learner.module';
 import config from '@/config';
 
 @Module({
@@ -27,6 +28,7 @@ import config from '@/config';
         ChunkModule,
         TreeModule,
         FeedbackModule,
+        LearnerModule,
     ],
     controllers: [AppController],
     providers: [],
