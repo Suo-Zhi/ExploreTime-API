@@ -17,6 +17,11 @@ export class TreeController {
         return this.treeService.findMy(dto.keywords, dto.sort, user.id);
     }
 
+    @Get('public')
+    findPublic(@Query('keywords') keywords: string) {
+        return this.treeService.findPublic(keywords);
+    }
+
     @Auth()
     @Patch('remove:id')
     remove(@Param('id') id: number) {

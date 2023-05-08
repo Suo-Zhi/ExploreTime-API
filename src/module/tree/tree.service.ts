@@ -43,6 +43,42 @@ export class TreeService {
         return list;
     }
 
+    async findPublic(keywords: string) {
+        let list = [];
+
+        // 搜索树
+        const trees = await this.prisma.tree.findMany({
+            where: {
+                OR: [{ name: { contains: keywords } }, { preface: { contains: keywords } }],
+                isPublic: true,
+                isDel: false,
+            },
+            orderBy: { createTime: 'desc' },
+        });
+
+        // 统计知识块和知识点
+        for (let i = 0; i < trees.length; i++) {
+            const chunkTotal = await this.prisma.treeNode.count({
+                where: { treeId: trees[i].id },
+            });
+            const pointTotal = await this.prisma.point.count({
+                where: {
+                    ChunkContent: {
+                        some: {
+                            Chunk: {
+                                Node: {
+                                    some: { treeId: trees[i].id },
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            list.push({ ...trees[i], chunkTotal, pointTotal });
+        }
+        return list;
+    }
+
     remove(id: number) {
         return this.prisma.tree.update({
             where: { id },
