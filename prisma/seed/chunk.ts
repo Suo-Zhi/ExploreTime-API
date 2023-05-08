@@ -4,6 +4,7 @@ import { Random } from 'mockjs';
 const prisma = new PrismaClient();
 
 export const createChunk = async (n: number) => {
+    await addTestChunk();
     for (let i = 1; i <= n / 3; i++) {
         await prisma.chunk.create({
             data: {
@@ -60,4 +61,70 @@ const relateChunk = async (n: number) => {
             ],
         });
     }
+};
+
+const addTestChunk = async () => {
+    await prisma.chunk.create({
+        data: {
+            name: 'g',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'f',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'e',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'd',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'c',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'b',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
+    await prisma.chunk.create({
+        data: {
+            name: 'a',
+            preface: '',
+            endnote: '',
+            isRefine: false,
+            authorId: 'tom',
+        },
+    });
 };

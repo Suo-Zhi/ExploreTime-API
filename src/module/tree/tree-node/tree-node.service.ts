@@ -86,15 +86,10 @@ export class TreeNodeService {
 
     upsert(id: number, dto: UpsertTreeNodeDTO) {
         dto = plainToClass(UpsertTreeNodeDTO, dto);
-
         return this.prisma.treeNode.upsert({
-            where: { id },
-            update: {
-                ...dto,
-            },
-            create: {
-                ...dto,
-            },
+            where: { id: +id },
+            update: { ...dto },
+            create: { ...dto },
         });
     }
 
