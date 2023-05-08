@@ -1,6 +1,8 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { FindFeedbackDTO } from './dto/find-feedback.dto';
+import { CreateFeedbackDTO } from './dto/create-feeback.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class FeedbackService {
@@ -13,6 +15,16 @@ export class FeedbackService {
                 targetType: dto.targetType,
                 content: { contains: dto.keywords },
             },
+            orderBy: {
+                createTime: 'desc',
+            },
+        });
+    }
+
+    create(dto: CreateFeedbackDTO, userId: string) {
+        dto = plainToClass(CreateFeedbackDTO, dto);
+        return this.prisma.feedback.create({
+            data: { ...dto, authorId: userId },
         });
     }
 }
