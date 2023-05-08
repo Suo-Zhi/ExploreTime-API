@@ -9,6 +9,7 @@ import { PointModule } from './module/point/point.module';
 import { RelateModule } from './module/relate/relate.module';
 import { ChunkModule } from './module/chunk/chunk.module';
 import { TreeModule } from './module/tree/tree.module';
+import { FeedbackModule } from './module/feedback/feedback.module';
 import config from '@/config';
 
 @Module({
@@ -25,6 +26,7 @@ import config from '@/config';
         RelateModule,
         ChunkModule,
         TreeModule,
+        FeedbackModule,
     ],
     controllers: [AppController],
     providers: [],
