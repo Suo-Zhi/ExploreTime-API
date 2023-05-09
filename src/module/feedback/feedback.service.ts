@@ -9,16 +9,32 @@ export class FeedbackService {
     constructor(private readonly prisma: PrismaService) {}
 
     findList(dto: FindFeedbackDTO) {
-        return this.prisma.feedback.findMany({
-            where: {
-                targetId: +dto.targetId,
-                targetType: dto.targetType,
-                content: { contains: dto.keywords },
-            },
-            orderBy: {
-                createTime: 'desc',
-            },
-        });
+        return this.prisma.feedback
+            .findMany({
+                where: {
+                    targetId: +dto.targetId,
+                    targetType: dto.targetType,
+                    content: { contains: dto.keywords },
+                },
+                orderBy: { createTime: 'desc' },
+                include: {
+                    _count: {
+                        select: {
+                            Reply: true,
+                        },
+                    },
+                },
+            })
+            .then((res) => {
+                return res.map(({ _count, ...feedback }) => {
+                    return {
+                        ...feedback,
+                        extra: {
+                            replyCount: _count.Reply,
+                        },
+                    };
+                });
+            });
     }
 
     create(dto: CreateFeedbackDTO, userId: string) {

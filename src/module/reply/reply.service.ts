@@ -6,13 +6,31 @@ export class ReplyService {
     constructor(private readonly prisma: PrismaService) {}
 
     getRoot(feedbackId: number) {
-        return this.prisma.reply.findMany({
-            where: {
-                feedbackId,
-                rootId: null,
-            },
-            orderBy: { createTime: 'asc' },
-        });
+        return this.prisma.reply
+            .findMany({
+                where: {
+                    feedbackId,
+                    rootId: null,
+                },
+                orderBy: { createTime: 'asc' },
+                include: {
+                    _count: {
+                        select: {
+                            ChildReply: true,
+                        },
+                    },
+                },
+            })
+            .then((res) => {
+                return res.map(({ _count, ...reply }) => {
+                    return {
+                        ...reply,
+                        extra: {
+                            replyCount: _count.ChildReply,
+                        },
+                    };
+                });
+            });
     }
 
     async getChild(rootId: number) {
