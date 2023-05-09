@@ -6,7 +6,7 @@ import { CreateReplyDTO } from './dto/create-reply.dto';
 export class ReplyService {
     constructor(private readonly prisma: PrismaService) {}
 
-    getRoot(feedbackId: number) {
+    getRoot(feedbackId: number, userId: string) {
         return this.prisma.reply
             .findMany({
                 where: {
@@ -18,12 +18,14 @@ export class ReplyService {
                     _count: {
                         select: {
                             ChildReply: true,
+                            Likes: true,
                         },
                     },
+                    Likes: { where: { userId } },
                 },
             })
             .then((res) => {
-                return res.map(({ _count, ...reply }) => {
+                return res.map(({ _count, Likes, ...reply }) => {
                     if (reply.isDel) {
                         reply.content = '回复内容已删除';
                         reply.authorId = '';
@@ -32,13 +34,15 @@ export class ReplyService {
                         ...reply,
                         extra: {
                             replyCount: _count.ChildReply,
+                            likeCount: _count.Likes,
+                            isLike: !userId || Likes.length === 0 ? false : true,
                         },
                     };
                 });
             });
     }
 
-    async getChild(rootId: number) {
+    async getChild(rootId: number, userId: string) {
         return this.prisma.reply
             .findMany({
                 where: { rootId },
@@ -56,10 +60,16 @@ export class ReplyService {
                             nickname: true,
                         },
                     },
+                    _count: {
+                        select: {
+                            Likes: true,
+                        },
+                    },
+                    Likes: { where: { userId } },
                 },
             })
             .then((res) => {
-                return res.map(({ Author, Receiver, authorId, receiverId, ...reply }) => {
+                return res.map(({ Author, Receiver, authorId, receiverId, _count, Likes, ...reply }) => {
                     if (reply.isDel) {
                         reply.content = '回复内容已删除';
                         Author.id = '';
@@ -68,6 +78,10 @@ export class ReplyService {
                         ...reply,
                         receiver: Receiver,
                         author: Author,
+                        extra: {
+                            likeCount: _count.Likes,
+                            isLike: !userId || Likes.length === 0 ? false : true,
+                        },
                     };
                 });
             });

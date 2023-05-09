@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ReplyService } from './reply.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CreateReplyDTO } from './dto/create-reply.dto';
@@ -10,13 +10,13 @@ export class ReplyController {
     constructor(private readonly replyService: ReplyService) {}
 
     @Get('root:feedbackId')
-    getRoot(@Param('feedbackId') feedbackId: number) {
-        return this.replyService.getRoot(+feedbackId);
+    getRoot(@Param('feedbackId') feedbackId: number, @Query('userId') userId: string) {
+        return this.replyService.getRoot(+feedbackId, userId);
     }
 
     @Get('child:rootId')
-    getChild(@Param('rootId') rootId: number) {
-        return this.replyService.getChild(+rootId);
+    getChild(@Param('rootId') rootId: number, @Query('userId') userId: string) {
+        return this.replyService.getChild(+rootId, userId);
     }
 
     @Auth()

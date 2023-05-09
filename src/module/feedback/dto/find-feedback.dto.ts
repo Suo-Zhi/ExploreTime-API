@@ -9,4 +9,5 @@ export class FindFeedbackDTO {
     targetType: OutputType;
 
     keywords: string;
+    userId: string;
 }

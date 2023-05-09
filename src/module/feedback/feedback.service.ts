@@ -21,12 +21,14 @@ export class FeedbackService {
                     _count: {
                         select: {
                             Reply: true,
+                            Likes: true,
                         },
                     },
+                    Likes: { where: { userId: dto.userId } },
                 },
             })
             .then((res) => {
-                return res.map(({ _count, ...feedback }) => {
+                return res.map(({ _count, Likes, ...feedback }) => {
                     if (feedback.isDel) {
                         feedback.content = '反馈内容已删除';
                         feedback.authorId = '';
@@ -35,6 +37,8 @@ export class FeedbackService {
                         ...feedback,
                         extra: {
                             replyCount: _count.Reply,
+                            likeCount: _count.Likes,
+                            isLike: !dto.userId || Likes.length === 0 ? false : true,
                         },
                     };
                 });
