@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { FindFeedbackDTO } from './dto/find-feedback.dto';
 import { Auth } from '../auth/jwt/auth.decorator';
@@ -19,5 +19,15 @@ export class FeedbackController {
     @Post()
     create(@Body() dto: CreateFeedbackDTO, @CurrentUser() user: Learner) {
         return this.feedbackService.create(dto, user.id);
+    }
+
+    @Patch('remove:id')
+    remove(@Param('id') id: number) {
+        return this.feedbackService.remove(+id);
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.feedbackService.delete(+id);
     }
 }

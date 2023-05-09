@@ -8,7 +8,7 @@ import { plainToClass } from 'class-transformer';
 export class FeedbackService {
     constructor(private readonly prisma: PrismaService) {}
 
-    findList(dto: FindFeedbackDTO) {
+    async findList(dto: FindFeedbackDTO) {
         return this.prisma.feedback
             .findMany({
                 where: {
@@ -27,6 +27,10 @@ export class FeedbackService {
             })
             .then((res) => {
                 return res.map(({ _count, ...feedback }) => {
+                    if (feedback.isDel) {
+                        feedback.content = '已删除';
+                        feedback.authorId = '';
+                    }
                     return {
                         ...feedback,
                         extra: {
@@ -41,6 +45,19 @@ export class FeedbackService {
         dto = plainToClass(CreateFeedbackDTO, dto);
         return this.prisma.feedback.create({
             data: { ...dto, authorId: userId },
+        });
+    }
+
+    remove(id: number) {
+        return this.prisma.feedback.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
+
+    delete(id: number) {
+        return this.prisma.feedback.delete({
+            where: { id },
         });
     }
 }
