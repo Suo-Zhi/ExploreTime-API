@@ -14,7 +14,6 @@ export const createTree = async (n: number) => {
         });
     }
     await addTreeNode();
-    await addFeedback(n);
 };
 
 const addTreeNode = async () => {
@@ -40,17 +39,4 @@ const addTreeNode = async () => {
             { treeId: 1, parentNodeId: null, order: 2, nodeId: 3 }, // 3
         ],
     });
-};
-
-const addFeedback = async (n: number) => {
-    for (let i = 1; i <= n; i++) {
-        await prisma.feedback.create({
-            data: {
-                targetId: i,
-                targetType: 'tree',
-                content: Random.csentence(0, 40),
-                authorId: 'jerry',
-            },
-        });
-    }
 };

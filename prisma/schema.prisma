@@ -16,11 +16,14 @@ model Learner {
     avatar   String?
     intro    String? @db.VarChar(30)
 
-    Info     Info[]
-    Point    Point[]
-    Chunk    Chunk[]
-    Tree     Tree[]
+    Info  Info[]
+    Point Point[]
+    Chunk Chunk[]
+    Tree  Tree[]
+
     Feedback Feedback[]
+    Reply    Reply[]
+    Replied  Reply[]    @relation("receiver")
 }
 
 model Info {
@@ -127,7 +130,26 @@ model Feedback {
     targetId   Int
     targetType String
 
-    author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    Author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     authorId   String   @db.VarChar(20)
     createTime DateTime @default(now())
+    Reply      Reply[]
+}
+
+model Reply {
+    id         Int      @id @default(autoincrement())
+    content    String   @db.Text
+    createTime DateTime @default(now())
+
+    Feedback   Feedback @relation(fields: [feedbackId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    feedbackId Int
+    RootReply  Reply?   @relation("rootReply", fields: [rootId], references: [id])
+    rootId     Int?
+
+    Receiver   Learner? @relation("receiver", fields: [receiverId], references: [id])
+    receiverId String?  @db.VarChar(20)
+    Author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    authorId   String   @db.VarChar(20)
+
+    ChildReply Reply[] @relation("rootReply")
 }
