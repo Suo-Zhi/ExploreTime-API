@@ -1,5 +1,6 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { CreateReplyDTO } from './dto/create-reply.dto';
 
 @Injectable()
 export class ReplyService {
@@ -45,15 +46,34 @@ export class ReplyService {
                             nickname: true,
                         },
                     },
+                    Author: {
+                        select: {
+                            id: true,
+                            nickname: true,
+                        },
+                    },
                 },
             })
             .then((res) => {
-                return res.map(({ Receiver, receiverId, ...reply }) => {
+                return res.map(({ Author, Receiver, authorId, receiverId, ...reply }) => {
                     return {
                         ...reply,
                         receiver: Receiver,
+                        author: Author,
                     };
                 });
             });
+    }
+
+    create(dto: CreateReplyDTO, userId: string) {
+        return this.prisma.reply.create({
+            data: {
+                content: dto.content,
+                feedbackId: +dto.feedbackId,
+                rootId: dto.rootId ? +dto.rootId : null,
+                receiverId: dto.receiverId,
+                authorId: userId,
+            },
+        });
     }
 }
