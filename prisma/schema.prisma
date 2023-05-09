@@ -24,6 +24,7 @@ model Learner {
     Feedback Feedback[]
     Reply    Reply[]
     Replied  Reply[]    @relation("receiver")
+    Like     Like[]
 }
 
 model Info {
@@ -136,6 +137,7 @@ model Feedback {
     authorId String   @db.VarChar(20)
 
     Reply Reply[]
+    Likes Like[]
 }
 
 model Reply {
@@ -155,4 +157,15 @@ model Reply {
     authorId   String   @db.VarChar(20)
 
     ChildReply Reply[] @relation("rootReply")
+    Likes      Like[]
+}
+
+model Like {
+    id         Int      @id @default(autoincrement())
+    User       Learner? @relation(fields: [userId], references: [id])
+    userId     String   @db.VarChar(20)
+    createTime DateTime @default(now())
+
+    Feedbacks Feedback[]
+    Replies   Reply[]
 }
