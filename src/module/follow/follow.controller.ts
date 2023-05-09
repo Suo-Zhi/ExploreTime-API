@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { FollowService } from './follow.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
@@ -18,5 +18,11 @@ export class FollowController {
     @Get('is')
     isFollow(@Query() dto: FindFollowDTO) {
         return this.followService.isFollow(dto);
+    }
+
+    @Auth()
+    @Delete()
+    delete(@Query('targetId') targetId: string, @CurrentUser() user: Learner) {
+        return this.followService.delete({ targetId, followerId: user.id });
     }
 }
