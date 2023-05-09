@@ -25,6 +25,9 @@ model Learner {
     Reply    Reply[]
     Replied  Reply[]    @relation("receiver")
     Like     Like[]
+
+    FollowTargets Follow[] @relation("followTarget")
+    Followers     Follow[] @relation("follower")
 }
 
 model Info {
@@ -162,10 +165,22 @@ model Reply {
 
 model Like {
     id         Int      @id @default(autoincrement())
-    User       Learner? @relation(fields: [userId], references: [id])
+    User       Learner? @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
     userId     String   @db.VarChar(20)
     createTime DateTime @default(now())
 
     Feedbacks Feedback[]
     Replies   Reply[]
+}
+
+model Follow {
+    id         Int      @id @default(autoincrement())
+    createTime DateTime @default(now())
+
+    Target     Learner @relation(name: "followTarget", fields: [targetId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    targetId   String
+    Follower   Learner @relation(name: "follower", fields: [followerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    followerId String
+
+    @@unique([targetId, followerId])
 }
