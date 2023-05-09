@@ -9,4 +9,9 @@ export class ReplyController {
     getRoot(@Param('feedbackId') feedbackId: number) {
         return this.replyService.getRoot(+feedbackId);
     }
+
+    @Get('child:rootId')
+    getChild(@Param('rootId') rootId: number) {
+        return this.replyService.getChild(+rootId);
+    }
 }

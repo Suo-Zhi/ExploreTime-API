@@ -14,4 +14,28 @@ export class ReplyService {
             orderBy: { createTime: 'asc' },
         });
     }
+
+    async getChild(rootId: number) {
+        return this.prisma.reply
+            .findMany({
+                where: { rootId },
+                orderBy: { createTime: 'asc' },
+                include: {
+                    Receiver: {
+                        select: {
+                            id: true,
+                            nickname: true,
+                        },
+                    },
+                },
+            })
+            .then((res) => {
+                return res.map(({ Receiver, receiverId, ...reply }) => {
+                    return {
+                        ...reply,
+                        receiver: Receiver,
+                    };
+                });
+            });
+    }
 }
