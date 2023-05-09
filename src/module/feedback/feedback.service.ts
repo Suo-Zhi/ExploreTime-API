@@ -38,7 +38,10 @@ export class FeedbackService {
                         extra: {
                             replyCount: _count.Reply,
                             likeCount: _count.Likes,
-                            isLike: !dto.userId || Likes.length === 0 ? false : true,
+                            isLike: {
+                                value: !dto.userId || Likes.length === 0 ? false : true,
+                                id: Likes[0]?.id,
+                            },
                         },
                     };
                 });

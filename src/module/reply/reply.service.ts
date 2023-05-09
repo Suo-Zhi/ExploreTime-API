@@ -35,7 +35,10 @@ export class ReplyService {
                         extra: {
                             replyCount: _count.ChildReply,
                             likeCount: _count.Likes,
-                            isLike: !userId || Likes.length === 0 ? false : true,
+                            isLike: {
+                                value: !userId || Likes.length === 0 ? false : true,
+                                id: Likes[0]?.id,
+                            },
                         },
                     };
                 });
@@ -80,7 +83,10 @@ export class ReplyService {
                         author: Author,
                         extra: {
                             likeCount: _count.Likes,
-                            isLike: !userId || Likes.length === 0 ? false : true,
+                            isLike: {
+                                value: !userId || Likes.length === 0 ? false : true,
+                                id: Likes[0]?.id,
+                            },
                         },
                     };
                 });

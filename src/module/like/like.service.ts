@@ -25,4 +25,10 @@ export class LikeService {
             },
         });
     }
+
+    remove(id: number) {
+        return this.prisma.like.delete({
+            where: { id },
+        });
+    }
 }

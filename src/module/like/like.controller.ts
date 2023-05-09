@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { LikeService } from './like.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CreateLikeDTO } from './dto/create-like.dto';
@@ -13,5 +13,11 @@ export class LikeController {
     @Post()
     createFeedback(@Body() dto: CreateLikeDTO, @CurrentUser() user: Learner) {
         return this.likeService.create(dto, user.id);
+    }
+
+    @Auth()
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.likeService.remove(+id);
     }
 }
