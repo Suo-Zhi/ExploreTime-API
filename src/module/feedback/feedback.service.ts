@@ -28,7 +28,7 @@ export class FeedbackService {
             .then((res) => {
                 return res.map(({ _count, ...feedback }) => {
                     if (feedback.isDel) {
-                        feedback.content = '已删除';
+                        feedback.content = '反馈内容已删除';
                         feedback.authorId = '';
                     }
                     return {

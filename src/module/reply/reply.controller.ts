@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ReplyService } from './reply.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CreateReplyDTO } from './dto/create-reply.dto';
@@ -23,5 +23,15 @@ export class ReplyController {
     @Post()
     create(@Body() dto: CreateReplyDTO, @CurrentUser() user: Learner) {
         return this.replyService.create(dto, user.id);
+    }
+
+    @Patch('remove:id')
+    remove(@Param('id') id: number) {
+        return this.replyService.remove(+id);
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.replyService.delete(+id);
     }
 }

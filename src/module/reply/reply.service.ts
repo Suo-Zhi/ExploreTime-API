@@ -24,6 +24,10 @@ export class ReplyService {
             })
             .then((res) => {
                 return res.map(({ _count, ...reply }) => {
+                    if (reply.isDel) {
+                        reply.content = '回复内容已删除';
+                        reply.authorId = '';
+                    }
                     return {
                         ...reply,
                         extra: {
@@ -56,6 +60,10 @@ export class ReplyService {
             })
             .then((res) => {
                 return res.map(({ Author, Receiver, authorId, receiverId, ...reply }) => {
+                    if (reply.isDel) {
+                        reply.content = '回复内容已删除';
+                        Author.id = '';
+                    }
                     return {
                         ...reply,
                         receiver: Receiver,
@@ -74,6 +82,19 @@ export class ReplyService {
                 receiverId: dto.receiverId,
                 authorId: userId,
             },
+        });
+    }
+
+    remove(id: number) {
+        return this.prisma.reply.update({
+            where: { id },
+            data: { isDel: true },
+        });
+    }
+
+    delete(id: number) {
+        return this.prisma.reply.delete({
+            where: { id },
         });
     }
 }
