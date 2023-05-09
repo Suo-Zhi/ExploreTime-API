@@ -19,7 +19,7 @@ export class LearnerService {
             ...userInfo,
             isFollow: {
                 value: Followers.length === 0 ? false : true,
-                id: Followers[0]?.id,
+                id: Followers[0]?.id || null,
             },
         };
     }

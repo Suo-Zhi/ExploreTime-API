@@ -11,7 +11,7 @@ export class LikeController {
 
     @Auth()
     @Post()
-    createFeedback(@Body() dto: CreateLikeDTO, @CurrentUser() user: Learner) {
+    create(@Body() dto: CreateLikeDTO, @CurrentUser() user: Learner) {
         return this.likeService.create(dto, user.id);
     }
 
