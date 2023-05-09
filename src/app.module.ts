@@ -13,6 +13,7 @@ import { FeedbackModule } from './module/feedback/feedback.module';
 import { LearnerModule } from './module/learner/learner.module';
 import { ReplyModule } from './module/reply/reply.module';
 import { LikeModule } from './module/like/like.module';
+import { FollowModule } from './module/follow/follow.module';
 import config from '@/config';
 
 @Module({
@@ -33,6 +34,7 @@ import config from '@/config';
         LearnerModule,
         ReplyModule,
         LikeModule,
+        FollowModule,
     ],
     controllers: [AppController],
     providers: [],
