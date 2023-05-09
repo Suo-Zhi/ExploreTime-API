@@ -1,6 +1,7 @@
 import { PrismaService } from '@/common/module/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { CreateFollowDTO } from './dto/create-follow.dto';
+import { FindFollowDTO } from './dto/find-follow.dto';
 
 @Injectable()
 export class FollowService {
@@ -10,5 +11,18 @@ export class FollowService {
         return this.prisma.follow.create({
             data: { ...dto },
         });
+    }
+
+    async isFollow(dto: FindFollowDTO) {
+        return this.prisma.follow
+            .findUnique({
+                where: {
+                    targetId_followerId: { ...dto },
+                },
+            })
+            .then((res) => {
+                if (res === null) return false;
+                else return true;
+            });
     }
 }

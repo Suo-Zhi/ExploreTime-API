@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { FollowService } from './follow.service';
 import { Auth } from '../auth/jwt/auth.decorator';
 import { CurrentUser } from '../auth/jwt/user.decorator';
 import { Learner } from '@prisma/client';
+import { FindFollowDTO } from './dto/find-follow.dto';
 
 @Controller('follow')
 export class FollowController {
@@ -12,5 +13,10 @@ export class FollowController {
     @Post()
     create(@Body('targetId') targetId: string, @CurrentUser() user: Learner) {
         return this.followService.create({ targetId, followerId: user.id });
+    }
+
+    @Get('is')
+    isFollow(@Query() dto: FindFollowDTO) {
+        return this.followService.isFollow(dto);
     }
 }
