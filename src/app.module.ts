@@ -12,6 +12,7 @@ import { TreeModule } from './module/tree/tree.module';
 import { FeedbackModule } from './module/feedback/feedback.module';
 import { LearnerModule } from './module/learner/learner.module';
 import { ReplyModule } from './module/reply/reply.module';
+import { LikeModule } from './module/like/like.module';
 import config from '@/config';
 
 @Module({
@@ -31,6 +32,7 @@ import config from '@/config';
         FeedbackModule,
         LearnerModule,
         ReplyModule,
+        LikeModule,
     ],
     controllers: [AppController],
     providers: [],
