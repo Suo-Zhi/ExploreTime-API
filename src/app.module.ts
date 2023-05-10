@@ -15,6 +15,7 @@ import { ReplyModule } from './module/reply/reply.module';
 import { LikeModule } from './module/like/like.module';
 import { FollowModule } from './module/follow/follow.module';
 import { ExplainModule } from './module/explain/explain.module';
+import { ExerciseModule } from './module/exercise/exercise.module';
 import config from '@/config';
 
 @Module({
@@ -37,6 +38,7 @@ import config from '@/config';
         LikeModule,
         FollowModule,
         ExplainModule,
+        ExerciseModule,
     ],
     controllers: [AppController],
     providers: [],
