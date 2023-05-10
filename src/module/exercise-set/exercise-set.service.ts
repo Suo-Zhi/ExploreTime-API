@@ -8,8 +8,8 @@ import { SortExerciseSet } from './dto/find-exerciseSet.dto';
 export class ExerciseSetService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findMy(keywords: string, sort: SortExerciseSet, userId: string) {
-        const res = await this.prisma.exerciseSet.findMany({
+    findMy(keywords: string, sort: SortExerciseSet, userId: string) {
+        return this.prisma.exerciseSet.findMany({
             where: {
                 OR: [
                     { name: { contains: keywords } },
@@ -32,42 +32,14 @@ export class ExerciseSetService {
                 isDel: false,
                 authorId: userId,
             },
-            include: {
-                ExerciseSetContent: {
-                    select: { order: true, Exercise: true },
-                    orderBy: { order: 'asc' },
-                },
-            },
             orderBy: {
                 [sort.field]: sort.order,
             },
         });
-
-        // 修改响应数据格式
-        return res.map(({ ExerciseSetContent, ...exerciseSet }) => {
-            const regExp = new RegExp(keywords);
-
-            return {
-                ...exerciseSet,
-                content: ExerciseSetContent.map((exerciseSetContent) => {
-                    return {
-                        ...exerciseSetContent.Exercise,
-                        order: exerciseSetContent.order,
-                        isMatch:
-                            keywords === ''
-                                ? false
-                                : regExp.test(exerciseSetContent.Exercise.question) ||
-                                  regExp.test(exerciseSetContent.Exercise.detail) ||
-                                  regExp.test(exerciseSetContent.Exercise.answer) ||
-                                  regExp.test(exerciseSetContent.Exercise.analysis),
-                    };
-                }),
-            };
-        });
     }
 
-    async findPublic(keywords: string) {
-        const res = await this.prisma.exerciseSet.findMany({
+    findPublic(keywords: string) {
+        return this.prisma.exerciseSet.findMany({
             where: {
                 OR: [
                     { name: { contains: keywords } },
@@ -90,38 +62,34 @@ export class ExerciseSetService {
                 isPublic: true,
                 isDel: false,
             },
+            orderBy: {
+                createTime: 'desc',
+            },
+        });
+    }
+
+    async getDetail(id: number) {
+        const res = await this.prisma.exerciseSet.findUnique({
+            where: { id },
             include: {
                 ExerciseSetContent: {
                     select: { order: true, Exercise: true },
                     orderBy: { order: 'asc' },
                 },
             },
-            orderBy: {
-                createTime: 'desc',
-            },
         });
 
         // 修改响应数据格式
-        return res.map(({ ExerciseSetContent, ...exerciseSet }) => {
-            const regExp = new RegExp(keywords);
-
-            return {
-                ...exerciseSet,
-                content: ExerciseSetContent.map((exerciseSetContent) => {
-                    return {
-                        ...exerciseSetContent.Exercise,
-                        order: exerciseSetContent.order,
-                        isMatch:
-                            keywords === ''
-                                ? false
-                                : regExp.test(exerciseSetContent.Exercise.question) ||
-                                  regExp.test(exerciseSetContent.Exercise.detail) ||
-                                  regExp.test(exerciseSetContent.Exercise.answer) ||
-                                  regExp.test(exerciseSetContent.Exercise.analysis),
-                    };
-                }),
-            };
-        });
+        const { ExerciseSetContent, ...exerciseSet } = res;
+        return {
+            ...exerciseSet,
+            content: ExerciseSetContent.map((exerciseSetContent) => {
+                return {
+                    ...exerciseSetContent.Exercise,
+                    order: exerciseSetContent.order,
+                };
+            }),
+        };
     }
 
     remove(id: number) {

@@ -22,6 +22,11 @@ export class ExerciseSetController {
         return this.exerciseSetService.findPublic(keywords);
     }
 
+    @Get(':id')
+    getDetail(@Param('id') id: number) {
+        return this.exerciseSetService.getDetail(+id);
+    }
+
     @Auth()
     @Patch('remove:id')
     remove(@Param('id') id: number) {
@@ -32,6 +37,12 @@ export class ExerciseSetController {
     @Patch('public:id')
     toggleRefine(@Param('id') id: number, @Body('value') value: boolean) {
         return this.exerciseSetService.togglePublic(+id, value);
+    }
+
+    @Auth()
+    @Patch('time:id')
+    updateTime(@Param('id') id: number) {
+        return this.exerciseSetService.updateTime(+id);
     }
 
     @Auth()

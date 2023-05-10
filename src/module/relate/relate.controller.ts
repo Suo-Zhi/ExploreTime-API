@@ -33,6 +33,11 @@ export class RelateController {
         return this.relateService.findExercise(dto);
     }
 
+    @Get('exercise-set')
+    findExerciseSet(@Query() dto: FindRelateDTO) {
+        return this.relateService.findExerciseSet(dto);
+    }
+
     @Delete()
     delete(@Query() dto: DelRelateDTO) {
         return this.relateService.delete(dto);

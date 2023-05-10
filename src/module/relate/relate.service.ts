@@ -107,6 +107,17 @@ export class RelateService {
         });
     }
 
+    // 获取关联习题集
+    async findExerciseSet(dto: FindRelateDTO) {
+        const relations = await this.findType(dto);
+        return await this.prisma.exerciseSet.findMany({
+            where: {
+                id: { in: relations },
+                OR: [{ name: { contains: dto.keywords } }, { preface: { contains: dto.keywords } }],
+            },
+        });
+    }
+
     // 查询指定类型的关联项
     async findType(dto: FindRelateDTO) {
         const res1 = await this.prisma.relate
