@@ -21,8 +21,9 @@ model Learner {
     Chunk Chunk[]
     Tree  Tree[]
 
-    Explain  Explain[]
-    Exercise Exercise[]
+    Explain     Explain[]
+    Exercise    Exercise[]
+    ExerciseSet ExerciseSet[]
 
     Feedback Feedback[]
     Reply    Reply[]
@@ -145,6 +146,34 @@ model Exercise {
     authorId   String   @db.VarChar(20)
     createTime DateTime @default(now())
     updateTime DateTime @updatedAt
+
+    ExerciseSetContent ExerciseSetContent[]
+}
+
+model ExerciseSet {
+    id       Int     @id @default(autoincrement())
+    name     String  @db.VarChar(50)
+    preface  String  @db.Text
+    isPublic Boolean @default(false)
+
+    isDel      Boolean  @default(false)
+    Author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    authorId   String   @db.VarChar(20)
+    createTime DateTime @default(now())
+    updateTime DateTime @updatedAt
+
+    ExerciseSetContent ExerciseSetContent[]
+}
+
+model ExerciseSetContent {
+    ExerciseSet ExerciseSet? @relation(fields: [setId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    setId       Int
+    order       Int
+
+    Exercise   Exercise? @relation(fields: [exerciseId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    exerciseId Int
+
+    @@id([setId, order])
 }
 
 model Relate {

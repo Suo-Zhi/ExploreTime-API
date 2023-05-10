@@ -4,7 +4,7 @@ import { Random } from 'mockjs';
 const prisma = new PrismaClient();
 
 export const createExercise = async (n: number) => {
-    for (let i = 1; i <= n / 3; i++) {
+    for (let i = 1; i <= n; i++) {
         await prisma.exercise.create({
             data: {
                 question: Random.ctitle(),
