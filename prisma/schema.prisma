@@ -16,11 +16,13 @@ model Learner {
     avatar   String?
     intro    String? @db.VarChar(30)
 
-    Info    Info[]
-    Point   Point[]
-    Chunk   Chunk[]
-    Tree    Tree[]
-    Explain Explain[]
+    Info  Info[]
+    Point Point[]
+    Chunk Chunk[]
+    Tree  Tree[]
+
+    Explain  Explain[]
+    Exercise Exercise[]
 
     Feedback Feedback[]
     Reply    Reply[]
@@ -122,6 +124,21 @@ model Explain {
     title    String  @db.VarChar(50)
     content  String  @db.Text
     isPublic Boolean @default(false)
+
+    isDel      Boolean  @default(false)
+    Author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    authorId   String   @db.VarChar(20)
+    createTime DateTime @default(now())
+    updateTime DateTime @updatedAt
+}
+
+model Exercise {
+    id       Int     @id @default(autoincrement())
+    question String  @db.VarChar(50)
+    detail   String  @db.Text
+    answer   String  @db.Text
+    analysis String  @db.Text
+    isRefine Boolean @default(false)
 
     isDel      Boolean  @default(false)
     Author     Learner? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)

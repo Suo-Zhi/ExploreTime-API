@@ -4,6 +4,7 @@ import { createPoint } from './point';
 import { createChunk } from './chunk';
 import { createTree } from './tree';
 import { createExplain } from './explain';
+import { createExercise } from './exercise';
 import { createDiscuss } from './discuss';
 
 const run = async () => {
@@ -14,5 +15,6 @@ const run = async () => {
     await createTree(20);
     await createExplain(20);
     await createDiscuss(20);
+    await createExercise(20);
 };
 run();
