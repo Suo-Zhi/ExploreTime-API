@@ -69,7 +69,7 @@ export class RelateService {
         });
     }
 
-    // 获取关联知识树详情
+    // 获取关联知识树
     async findTree(dto: FindRelateDTO) {
         const relations = await this.findType(dto);
         return await this.prisma.tree.findMany({
@@ -80,13 +80,29 @@ export class RelateService {
         });
     }
 
-    // 获取关联讲解详情
+    // 获取关联讲解
     async findExplain(dto: FindRelateDTO) {
         const relations = await this.findType(dto);
         return await this.prisma.explain.findMany({
             where: {
                 id: { in: relations },
                 OR: [{ title: { contains: dto.keywords } }, { content: { contains: dto.keywords } }],
+            },
+        });
+    }
+
+    // 获取关联习题
+    async findExercise(dto: FindRelateDTO) {
+        const relations = await this.findType(dto);
+        return await this.prisma.exercise.findMany({
+            where: {
+                id: { in: relations },
+                OR: [
+                    { question: { contains: dto.keywords } },
+                    { detail: { contains: dto.keywords } },
+                    { answer: { contains: dto.keywords } },
+                    { analysis: { contains: dto.keywords } },
+                ],
             },
         });
     }
