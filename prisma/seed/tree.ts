@@ -9,6 +9,7 @@ export const createTree = async (n: number) => {
             data: {
                 name: Random.ctitle(),
                 preface: Random.csentence(0, 40),
+                isPublic: Random.boolean(),
                 authorId: 'tom',
             },
         });
