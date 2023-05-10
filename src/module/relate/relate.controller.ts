@@ -23,6 +23,11 @@ export class RelateController {
         return this.relateService.findTree(dto);
     }
 
+    @Get('explain')
+    findExplain(@Query() dto: FindRelateDTO) {
+        return this.relateService.findExplain(dto);
+    }
+
     @Delete()
     delete(@Query() dto: DelRelateDTO) {
         return this.relateService.delete(dto);

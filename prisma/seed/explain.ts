@@ -8,7 +8,7 @@ export const createExplain = async (n: number) => {
         await prisma.explain.create({
             data: {
                 title: Random.ctitle(),
-                content: Random.cparagraph(),
+                content: Random.cparagraph(100),
                 isPublic: Random.boolean(),
                 authorId: 'tom',
             },

@@ -13,6 +13,7 @@ export class PointService {
             where: {
                 authorId: userId,
                 OR: [{ name: { contains: keywords } }, { content: { contains: keywords } }],
+                isDel: false,
             },
             orderBy: { [sort.field]: sort.order },
         });
