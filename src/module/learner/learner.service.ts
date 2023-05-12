@@ -6,20 +6,21 @@ export class LearnerService {
     constructor(private readonly prisma: PrismaService) {}
 
     async findOne(id: string, userId: string) {
-        const { password, Followers, ...userInfo } = await this.prisma.learner.findUnique({
+        const { password, FollowTargets, ...userInfo } = await this.prisma.learner.findUnique({
             where: { id },
             include: {
-                Followers: {
+                FollowTargets: {
                     where: { followerId: userId },
                     select: { id: true },
                 },
             },
         });
+
         return {
             ...userInfo,
             isFollow: {
-                value: Followers.length === 0 ? false : true,
-                id: Followers[0]?.id || null,
+                value: FollowTargets.length === 0 ? false : true,
+                id: FollowTargets[0]?.id || null,
             },
         };
     }
