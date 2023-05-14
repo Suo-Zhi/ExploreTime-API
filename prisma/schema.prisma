@@ -244,3 +244,18 @@ model Follow {
 
     @@unique([targetId, followerId])
 }
+
+model Admin {
+    id       String  @id @unique @db.VarChar(20)
+    nickname String  @db.VarChar(15)
+    password String
+    avatar   String?
+    Roles    Role[]
+}
+
+model Role {
+    id         String   @id @unique @db.VarChar(20)
+    name       String   @db.VarChar(15)
+    permission String[]
+    Admins     Admin[]
+}
